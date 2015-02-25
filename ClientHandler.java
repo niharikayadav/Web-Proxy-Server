@@ -2,7 +2,6 @@ package MiddleManServer;
 
 import java.io.*;
 import java.net.*;
-//import java.util.*;
 
 public class ClientHandler extends Thread {
 
@@ -37,20 +36,25 @@ public class ClientHandler extends Thread {
 
 			URL clientURL = new URL(urlString);
 			String hostName = clientURL.getHost();
+			
+			System.out.println("Hostname is" + hostName);
 
 			// This is the actual request which will be sent to web server
-			String webserverRequest = stringsInReq[0] + " " + stringsInReq[1];
+			String webserverRequest = stringsInReq[0] + " " + stringsInReq[1] + "\n";// back slash n is shows the end of request
 
 			// Create a new socket for connecting to destination server
 			realServerSocket = new Socket(hostName, 80);
-			realServerOutgoing = new BufferedOutputStream(
-					realServerSocket.getOutputStream());
-			realServerIncoming = new BufferedInputStream(
-					realServerSocket.getInputStream());
+			realServerOutgoing = new BufferedOutputStream(realServerSocket.getOutputStream());
+			realServerIncoming = new BufferedInputStream(realServerSocket.getInputStream());
+			
+			//PrintWriter pIn = new PrintWriter(realServerSocket.getOutputStream());// when request is send as String
 
-			System.out.println(webserverRequest);
+			System.out.println("ABC:"+ webserverRequest+"-Done");
 			realServerOutgoing.write(webserverRequest.getBytes());
-
+			realServerOutgoing.flush();
+			//pIn.print(webserverRequest);
+			//pIn.flush();// shows the end of buffered request
+			
 			int bufCount = 0;
 			while ((bufCount = realServerIncoming.read(buf, 0, 4096)) > 0) {
 				System.out.println("The number of bytes read are: "+ bufCount );
@@ -66,6 +70,7 @@ public class ClientHandler extends Thread {
 		} finally {
 
 			try {
+		
 				realServerSocket.close();
 				cclient.close();
 			} catch (IOException e) {

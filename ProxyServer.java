@@ -2,7 +2,6 @@ package MiddleManServer;
 
 import java.io.*;
 import java.net.*;
-//import java.util.*;
 
 public class ProxyServer {
 	public static void main(String[] args){
