@@ -2,9 +2,13 @@ package MiddleManServer;
 
 import java.io.*;
 import java.net.*;
+import java.util.*;
 
 public class ProxyServer {
+	
 	public static void main(String[] args){
+		HashMap<URL, byte[]> urlHashMap = new HashMap<URL, byte[]>(100);
+		LinkedList<URL> urlList = new LinkedList<URL>();
 		
 		try {
 			@SuppressWarnings("resource")
@@ -12,7 +16,7 @@ public class ProxyServer {
 			System.out.println("Waiting for Client on port " + serverSock.getLocalPort() + "...");
 			while (true) {
 				Socket connectedClient = serverSock.accept();
-				ClientHandler ch = new ClientHandler(connectedClient);
+				ClientHandler ch = new ClientHandler(connectedClient, urlHashMap, urlList);
 				ch.start();
 			}
 		} catch (SocketException se) {
