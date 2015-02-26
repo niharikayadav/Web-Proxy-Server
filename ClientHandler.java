@@ -25,7 +25,7 @@ public class ClientHandler extends Thread {
 		Socket realServerSocket = null;
 		URL clientURL = null;
 		boolean urlFound = false;
-		byte[] cachedContent = new byte[100000];
+		byte[] cachedContent = new byte[1048576];
 
 		try {
 			clientOutgoing = new BufferedOutputStream(cclient.getOutputStream());
